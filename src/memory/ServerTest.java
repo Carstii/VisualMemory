@@ -11,13 +11,13 @@ public class ServerTest {
 
 		while (true) {
 			Socket client = server.accept();
-
+//fdgdf
 			Scanner scanner = new Scanner(client.getInputStream());
 
 			while (scanner.hasNext()) {
 				System.out.println(scanner.nextLine());
 			}
-
+			System.out.println("thsd");
 			scanner.close();
 			server.close();
 		}
