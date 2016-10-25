@@ -12,6 +12,7 @@ public class ServerTest {
 		while (true) {
 			Socket client = server.accept();
 //fdgdf
+//			Elia was here
 			Scanner scanner = new Scanner(client.getInputStream());
 
 			while (scanner.hasNext()) {
