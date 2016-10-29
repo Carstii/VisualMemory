@@ -100,14 +100,20 @@ public class Memory {
 
 	public void andMByte(int index, int pattern) {
 
-		int of = 1;
 		int counter = 0;
 
-		while (of > 0) {
+		do {
 
-			of = this.getSpeicher()[index + counter].andMByte(pattern);
+			if (index + counter >= speicher.length) {
 
-		}
+				break;
+
+			}
+
+			pattern = this.getSpeicher()[index + counter].andMByte(pattern);
+			counter++;
+
+		} while (pattern > 0);
 
 	}
 
@@ -128,14 +134,20 @@ public class Memory {
 
 	public void orMByte(int index, int pattern) {
 
-		int of = 1;
 		int counter = 0;
 
-		while (of > 0) {
+		do {
 
-			of = this.getSpeicher()[index + counter].orMByte(pattern);
+			if (index + counter >= speicher.length) {
 
-		}
+				break;
+
+			}
+
+			pattern = this.getSpeicher()[index + counter].orMByte(pattern);
+			counter++;
+
+		} while (pattern > 0);
 
 	}
 
@@ -156,14 +168,20 @@ public class Memory {
 
 	public void xorMByte(int index, int pattern) {
 
-		int of = 1;
 		int counter = 0;
 
-		while (of > 0) {
+		do {
 
-			of = this.getSpeicher()[index + counter].xorMByte(pattern);
+			if (index + counter >= speicher.length) {
 
-		}
+				break;
+
+			}
+
+			pattern = this.getSpeicher()[index + counter].xorMByte(pattern);
+			counter++;
+
+		} while (pattern > 0);
 
 	}
 

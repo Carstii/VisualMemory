@@ -31,6 +31,14 @@ public class Test {
 		
 		speicher.getSpeicher()[58].setByte(z);
 		
+		speicher.orMByte(300, 178);
+		speicher.andMByte(321, 117);
+		speicher.xorMByte(200, 235);
+		
+		speicher.orMByte(250, 1485621);
+		speicher.xorMByte(479, 857231962);
+		speicher.xorMByte(100, 941203747);
+		
 		System.out.println(speicher.toString());
 		
 
