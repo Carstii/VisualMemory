@@ -85,7 +85,7 @@ public class Memory {
 	// zu ändernden MBytes im MByte-Array "speicher".
 	// Der 2. Parameter bestimmt mit welchen Werten die AND-Operation
 	// durchgeführt wird.
-	// Mögliche Typen des 2. Parameters sind: MByte, boolean oder int(TODO).
+	// Mögliche Typen des 2. Parameters sind: MByte, boolean oder int.
 	public void andMByte(int index, MByte pattern) {
 
 		this.getSpeicher()[index].andMByte(pattern);
@@ -95,6 +95,19 @@ public class Memory {
 	public void andMByte(int index, boolean b) {
 
 		this.getSpeicher()[index].andMByte(b);
+
+	}
+
+	public void andMByte(int index, int pattern) {
+
+		int of = 1;
+		int counter = 0;
+
+		while (of > 0) {
+
+			of = this.getSpeicher()[index + counter].andMByte(pattern);
+
+		}
 
 	}
 
@@ -113,6 +126,19 @@ public class Memory {
 
 	}
 
+	public void orMByte(int index, int pattern) {
+
+		int of = 1;
+		int counter = 0;
+
+		while (of > 0) {
+
+			of = this.getSpeicher()[index + counter].orMByte(pattern);
+
+		}
+
+	}
+
 	// Die Methode xorMByte() funktioniert analog zur andMByte() Methode mit dem
 	// einzigen Unterschied, dass nicht die logische AND-Opreration, sondern die
 	// logische XOR-Operation verwendet wird.
@@ -125,6 +151,19 @@ public class Memory {
 	public void xorMByte(int index, boolean b) {
 
 		this.getSpeicher()[index].xorMByte(b);
+
+	}
+
+	public void xorMByte(int index, int pattern) {
+
+		int of = 1;
+		int counter = 0;
+
+		while (of > 0) {
+
+			of = this.getSpeicher()[index + counter].xorMByte(pattern);
+
+		}
 
 	}
 
