@@ -2,8 +2,12 @@ package telnet;
 
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -77,6 +81,8 @@ public class Server {
 			
 			Server s = new Server();
 			
+            
+			
 			boolean end = false;
 	        
 			ServerSocket so = new ServerSocket(23);
@@ -134,6 +140,20 @@ public class Server {
 		        		break;
 		        	case "exit":
 		        		end = true;
+		        		break;
+		        	case "file":
+		        		File file = new File("Empfangen.txt");
+		                OutputStream outputStream = new FileOutputStream(file);
+		                InputStream inputStream = socket.getInputStream();
+
+		                byte[] buffer = new byte[16384];
+		                int len = 0;
+		                while ((len = inputStream.read(buffer)) > 0) {
+		                    outputStream.write(buffer, 0, len);
+		                }
+		                outputStream.close();
+		                inputStream.close();
+		                System.out.println("Es wurde eine Datei empfangen");
 		        		break;
 		        	default:
 		        		pw.println("Dieser Befehl existiert nicht");
