@@ -86,14 +86,30 @@ public class Test {
 			
 		}
 		
-		mem.addFile("File1");
-		mem.addFile("File2", 123456789);
-		mem.addFile("Textdatei", "Hallo Welt! Hier bin Ich!!!");
-		mem.addFile("file3", x);
+		System.out.println(mem.placeObject(0, "File1"));
+		System.out.println(mem.placeObject(40, "File2"));
+		System.out.println(mem.placeObject(30, "Hallo Welt! Hier bin Ich!!!"));
+		System.out.println(mem.placeObject(100, x));
 		
 		System.out.println();
 		
 		System.out.println(mem.toString());
+		
+		System.out.println(mem.deleteObject(40));
+		System.out.println(mem.deleteObject(30));
+		System.out.println(mem.deleteObject(-40));
+		
+		System.out.println();
+		
+		System.out.println(mem.toString());
+		
+		System.out.println(mem.placeObject(30, "Hallo Welt! Hier bin Ich!!!"));
+		
+		System.out.println();
+		
+		System.out.println(mem.toString());
+		
+
 
 	}
 
