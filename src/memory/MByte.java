@@ -108,13 +108,30 @@ public class MByte {
 		}
 
 	}
+	
+	public Integer setByte(int x) {
+		
+		boolean[] ba = setByte(intToBoolArray(x));
+		
+		if(ba == null) {
+			
+			return null;
+			
+		} else {
+			
+			return boolArrayToInt(ba);
+			
+		}
+		
+		
+		
+	}
 
 	// Die überladene Methode andMByte() verändert die Instanzvariable "mByte"
 	// mithilfe der logischen AND-Operation.
 	// Der übergebene Parameter bestimmt mit welchen Werten die AND-Operation
 	// durchgeführt wird.
 	// Mögliche Typen des übergebenen Parameters sind: MByte, boolean oder
-	// int(TODO).
 	public void andMByte(MByte pattern) {
 
 		boolean[] helper = pattern.getByte();
@@ -132,6 +149,42 @@ public class MByte {
 		for (int i = 0; i < BYTESIZE; i++) {
 
 			this.mByte[i] = this.mByte[i] && b;
+
+		}
+
+	}
+
+	public int andMByte(int pattern) {
+
+		String s = Integer.toBinaryString(pattern);
+
+		if (s.length() <= BYTESIZE) {
+
+			for (int i = 0; i < s.length(); i++) {
+
+				mByte[7 - i] = mByte[7 - i] && charToBool(s.charAt(s.length() - 1 - i));
+
+			}
+
+			return 0;
+
+		} else {
+
+			int overflow = s.length() % BYTESIZE;
+
+			if (overflow == 0) {
+
+				overflow = BYTESIZE;
+
+			}
+
+			for (int i = 0; i < overflow; i++) {
+
+				mByte[BYTESIZE - overflow + i] = mByte[BYTESIZE - overflow + i] && charToBool(s.charAt(i));
+
+			}
+
+			return Integer.parseUnsignedInt(s.substring(overflow), 2);
 
 		}
 
@@ -162,6 +215,42 @@ public class MByte {
 
 	}
 
+	public int orMByte(int pattern) {
+
+		String s = Integer.toBinaryString(pattern);
+
+		if (s.length() <= BYTESIZE) {
+
+			for (int i = 0; i < s.length(); i++) {
+
+				mByte[7 - i] = mByte[7 - i] || charToBool(s.charAt(s.length() - 1 - i));
+
+			}
+
+			return 0;
+
+		} else {
+
+			int overflow = s.length() % BYTESIZE;
+
+			if (overflow == 0) {
+
+				overflow = BYTESIZE;
+
+			}
+
+			for (int i = 0; i < overflow; i++) {
+
+				mByte[BYTESIZE - overflow + i] = mByte[BYTESIZE - overflow + i] || charToBool(s.charAt(i));
+
+			}
+
+			return Integer.parseUnsignedInt(s.substring(overflow), 2);
+
+		}
+
+	}
+
 	// Die Methode orMByte() funktioniert analog zur andMByte() Methode mit dem
 	// einzigen Unterschied, dass nicht die logische AND-Opreration, sondern die
 	// logische XOR-Operation verwendet wird.
@@ -186,6 +275,42 @@ public class MByte {
 		}
 
 	}
+	
+	public int xorMByte(int pattern) {
+
+		String s = Integer.toBinaryString(pattern);
+
+		if (s.length() <= BYTESIZE) {
+
+			for (int i = 0; i < s.length(); i++) {
+
+				mByte[7 - i] = xor(mByte[7 - i], charToBool(s.charAt(s.length() - 1 - i)));
+
+			}
+
+			return 0;
+
+		} else {
+
+			int overflow = s.length() % BYTESIZE;
+
+			if (overflow == 0) {
+
+				overflow = BYTESIZE;
+
+			}
+
+			for (int i = 0; i < overflow; i++) {
+
+				mByte[BYTESIZE - overflow + i] = xor(mByte[BYTESIZE - overflow + i], charToBool(s.charAt(i)));
+
+			}
+
+			return Integer.parseUnsignedInt(s.substring(overflow), 2);
+
+		}
+
+	}
 
 	// Logik zur Durchführung der XOR-Operation mit den übergebenen
 	// boolean-Werten "x" und "y", da es keinen eigenen XOR-Operator gibt
@@ -193,6 +318,64 @@ public class MByte {
 
 		return ((x || y) && !(x && y));
 
+	}
+
+	private boolean charToBool(char c) {
+
+		if (c == '1') {
+
+			return true;
+
+		} else {
+
+			return false;
+
+		}
+
+	}
+	
+	private char boolToChar(boolean b) {
+		
+		if(b) {
+			
+			return '1';
+			
+		} else {
+			
+			return '0';
+			
+		}
+		
+	}
+	
+	private boolean[] intToBoolArray(int x) {
+		
+		String s = Integer.toBinaryString(x);
+		
+		boolean[] b = new boolean[s.length()];
+		
+		for(int i = 0; i < s.length(); i++) {
+			
+			b[i] = charToBool(s.charAt(i));
+			
+		}
+		
+		return b;
+		
+	}
+	
+	private int boolArrayToInt(boolean[] ba) {
+		
+		StringBuilder s = new StringBuilder();
+		
+		for(boolean b : ba) {
+			
+			s.append(boolToChar(b));
+			
+		}
+		
+		return Integer.parseInt(s.toString(), 2);
+		
 	}
 
 	// toString() gibt ein Abbild der Instanzvariable "mByte" als String zurück.
@@ -215,6 +398,8 @@ public class MByte {
 			}
 
 		}
+		
+		sb.append(" ");
 
 		return sb.toString();
 

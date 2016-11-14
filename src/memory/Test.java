@@ -4,35 +4,112 @@ public class Test {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		//
+		// MByte a = new MByte();
+		// boolean[] z = {false,true,true,false,false,true,true,true};
+		// a.setByte(z);
+		//
+		// boolean[] y = {false,false,false,false,false,false,false,false};
+		// MByte b = new MByte();
+		// b.setByte(y);
+		//
+		// boolean[] x = {true,true,true,true,true,true,true,true};
+		// MByte c = new MByte();
+		// c.setByte(x);
+		//
+		// Memory speicher = new Memory(480, true);
+		//
+		//
+		// for(int i = 0; i < speicher.getMemory().length; i++) {
+		//
+		// if(i%2 == 0 && i !=0) {
+		// //System.out.println("\n" + i);
+		// speicher.andMByte(i, false);
+		// }
+		//
+		// }
+		//
+		// speicher.getMemory()[58].setByte(z);
+		//
+		// speicher.orMByte(300, 178);
+		// speicher.andMByte(321, 117);
+		// speicher.xorMByte(200, 235);
+		//
+		// speicher.orMByte(250, 1485621);
+		// speicher.xorMByte(479, 857231962);
+		// speicher.xorMByte(100, 941203747);
+		//
+		// System.out.println(speicher.toString());
+		//
+
+//		MByte[] mb = new MByte[10];
+//
+//		for (int i = 0; i < mb.length; i++) {
+//
+//			mb[i] = new MByte();
+//
+//		}
+//
+//		for (MByte m : mb) {
+//
+//			System.out.println(m.toString());
+//
+//		}
+//
+//		System.out.println();
+//
+//		Integer i = 123456789;
+//		
+//		int index = 1;
+//		
+//		while(i != null) {
+//			
+//			i = mb[index].setByte(i);
+//			index++;
+//		}
+//
+//		for (MByte m : mb) {
+//
+//			System.out.println(m.toString());
+//
+//		}
 		
-		MByte a = new MByte();
-		boolean[] z = {false,true,true,false,false,true,true,true};
-		a.setByte(z);
+		Memory mem = new Memory(90);
 		
-		boolean[] y = {false,false,false,false,false,false,false,false};
-		MByte b = new MByte();
-		b.setByte(y);
+		System.out.println(mem.toString());
 		
-		boolean[] x = {true,true,true,true,true,true,true,true};
-		MByte c = new MByte();
-		c.setByte(x);
+		int[] x = new int[20];
 		
-		Memory speicher = new Memory(480, true);
-		
-		
-           for(int i = 0; i < speicher.getSpeicher().length; i++) {
+		for(int i = 0; i < 20; i++) {
 			
-			if(i%2 == 0 && i !=0) {
-				//System.out.println("\n" + i);
-				speicher.andMByte(i, false);
-			}
+			x[i] = 250 + i;
 			
 		}
 		
-		speicher.getSpeicher()[58].setByte(z);
+		System.out.println(mem.placeObject(0, "File1"));
+		System.out.println(mem.placeObject(40, "File2"));
+		System.out.println(mem.placeObject(30, "Hallo Welt! Hier bin Ich!!!"));
+		System.out.println(mem.placeObject(100, x));
 		
-		System.out.println(speicher.toString());
+		System.out.println();
 		
+		System.out.println(mem.toString());
+		
+		System.out.println(mem.deleteObject(40));
+		System.out.println(mem.deleteObject(30));
+		System.out.println(mem.deleteObject(-40));
+		
+		System.out.println();
+		
+		System.out.println(mem.toString());
+		
+		System.out.println(mem.placeObject(30, "Hallo Welt! Hier bin Ich!!!"));
+		
+		System.out.println();
+		
+		System.out.println(mem.toString());
+		
+
 
 	}
 
