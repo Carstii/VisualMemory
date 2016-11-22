@@ -15,19 +15,21 @@ import java.lang.reflect.Parameter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import memory.Memory;
+
 public class Server {
 
 	private Method methods[];
-	private Beispiel b;
+	private Memory b;
 	
 	public Server(){
 		
-		this.b = new Beispiel();
+		this.b = new Memory(12);
 		this.methods = b.getClass().getDeclaredMethods();
 	}
 	
-	public String executeMethod(String methodName, String param[]) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-			Method method = this.getMethod(methodName);
+	public String executeMethod(int methodNumber, String param[]) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+			Method method = this.getMethod(methodNumber);
 			
 			if(method != null){
 				int countParameter = method.getParameterCount();
@@ -65,6 +67,10 @@ public class Server {
 		}
 		
 		return null;
+	}
+	
+	public Method getMethod(int number){
+		return methods[number];
 	}
 	
 	public Method[] getMethods() {
@@ -112,7 +118,7 @@ public class Server {
 		        		break;
 		        	case "methods":
 		        		for(int i = 0; i < s.getMethods().length; i++){
-		        			pw.print(s.getMethods()[i].getName() + "(");
+		        			pw.print((i+1) + " " + s.getMethods()[i].getName() + "(");
 		            		
 		            		Parameter parameter[] = s.getMethods()[i].getParameters();
 		            		
@@ -127,15 +133,18 @@ public class Server {
 		        		break;
 		        	case "invoke" :
 		        		if(input.length < 2){
-		        			pw.println("Syntax: invoke [Methodenname] [Parameter1] [Parameter2] usw.");
+		        			pw.println("Syntax: invoke [Methodennummer] [Parameter1] [Parameter2] usw.");
 		        		}else{
 		        			String parameter[] = new String[input.length-2];
 		        			
 		        			for(int i = 0; i < parameter.length; i++){
 		        				parameter[i] = input[i+2];
 		        			}
-		        			
-		        			pw.println(s.executeMethod(input[1], parameter));
+		        			try{
+		        				pw.println(s.executeMethod(Integer.parseInt(input[1]) - 1 , parameter));
+		        			}catch(NumberFormatException ex){
+		        				pw.println("Syntax: invoke [Methodennummer] [Parameter1] [Parameter2] usw.");
+		        			}
 		        		}
 		        		break;
 		        	case "exit":
