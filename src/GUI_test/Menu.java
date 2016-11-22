@@ -5,10 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import memory.Memory;
 
@@ -20,17 +22,31 @@ public class Menu {
 	    
     private JLabel lbl = new JLabel("Auflösung: ");
     private JButton btnOK  = new JButton("OK");
+    
+    private ButtonGroup group = new ButtonGroup();
+    private JRadioButton rbByte = new JRadioButton("Byte = grau");
+    private JRadioButton rbBit = new JRadioButton("Bit = schwarz/weiß");
+    private JRadioButton rbHeatMap = new JRadioButton("HeatMap");
+    
     private JPanel panel = new JPanel();
 
     private JFrame frame = new JFrame();
     
     
-    public Menu() {
+    public Menu(TelnetAbfrage ta) {
     	Dimension d = new Dimension(600, 300);
+    	this.ta = ta;
     	
     	frame.setTitle("Visual Memory - Menü");
     	frame.setLocationRelativeTo(null);
     	
+    	group.add(rbBit);
+    	group.add(rbByte);
+    	group.add(rbHeatMap);
+    	
+    	panel.add(rbBit);
+    	panel.add(rbByte);
+    	panel.add(rbHeatMap);
     	panel.setMinimumSize(d);
     	panel.setMaximumSize(d);
     	panel.setPreferredSize(d);
@@ -55,6 +71,8 @@ public class Menu {
     	panel.add(lbl);
     	panel.add(btnOK);
     	
+    	lbl.setText("Auflösung: " + ta.getResolutionText());
+    	
     	frame.getContentPane().add(panel);
     }
     
@@ -66,24 +84,32 @@ public class Menu {
     	}
     	@Override
     	public void actionPerformed(ActionEvent aEvent) {
-        	ta = new TelnetAbfrage(0);
+        	
         	int row = 0;
         	int column = 0;
         	
     		int resolution = ta.getResolutionSize();
-    		lbl.setText(ta.getResolutionText());
+    		System.out.println(resolution);
+
     		row = ta.getRow();
     		column = ta.getColumn();
     		
         	mem = new Memory(resolution);
         	
-        	for(int i = 0; i < 5000; i++){
-        		
-        		mem.addFile("Textdatei", "Hallo Welt! djahiugfhfkaondcjfsadncoidshnmefkkhgd");
+        	for(int i = 0; i < (1920*1080); i+=10){
+        		mem.placeObject(i, "Hallo Welt! djahiugfhfkaondcjfsadncoidshnmefiuggutdztsrdfsiugRFDF5sdgjwGDFZSfd");
         	}
+        	//System.out.println(mem.toString());
         	
-        	
-        	chart = new HeatMap(mem, row, column);
+        	if(rbBit.isSelected() == true) {
+        		chart = new HeatMap(mem, row, column, "Bit");
+        	}
+        	else if(rbByte.isSelected() == true) {
+        		chart = new HeatMap(mem, row, column, "Byte");
+        	}
+        	else if(rbHeatMap.isSelected() == true) {
+        		chart = new HeatMap(mem, row, column, "HeatMap");
+        	}
         	
         	try {
 				chart.showHeatChart();
