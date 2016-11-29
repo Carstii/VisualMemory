@@ -1,4 +1,4 @@
-package GUI_test;
+package gui;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -20,12 +20,12 @@ public class Menu {
 	private HeatMap chart;
 	private TelnetAbfrage ta;
 	    
-    private JLabel lbl = new JLabel("Auflösung: ");
+    private JLabel lbl = new JLabel("Auflï¿½sung: ");
     private JButton btnOK  = new JButton("OK");
     
     private ButtonGroup group = new ButtonGroup();
     private JRadioButton rbByte = new JRadioButton("Byte = grau");
-    private JRadioButton rbBit = new JRadioButton("Bit = schwarz/weiß");
+    private JRadioButton rbBit = new JRadioButton("Bit = schwarz/weiï¿½");
     private JRadioButton rbHeatMap = new JRadioButton("HeatMap");
     
     private JPanel panel = new JPanel();
@@ -37,7 +37,7 @@ public class Menu {
     	Dimension d = new Dimension(600, 300);
     	this.ta = ta;
     	
-    	frame.setTitle("Visual Memory - Menü");
+    	frame.setTitle("Visual Memory - Menï¿½");
     	frame.setLocationRelativeTo(null);
     	
     	group.add(rbBit);
@@ -71,7 +71,7 @@ public class Menu {
     	panel.add(lbl);
     	panel.add(btnOK);
     	
-    	lbl.setText("Auflösung: " + ta.getResolutionText());
+    	lbl.setText("Auflï¿½sung: " + ta.getResolutionText());
     	
     	frame.getContentPane().add(panel);
     }

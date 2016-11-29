@@ -95,10 +95,6 @@ public class Test {
 		
 		System.out.println(mem.toString());
 		
-		System.out.println(mem.deleteObject(40));
-		System.out.println(mem.deleteObject(30));
-		System.out.println(mem.deleteObject(-40));
-		
 		System.out.println();
 		
 		System.out.println(mem.toString());

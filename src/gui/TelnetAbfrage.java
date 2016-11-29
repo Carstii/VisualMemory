@@ -1,4 +1,4 @@
-package GUI_test;
+package gui;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -1,23 +1,21 @@
 package memory;
 
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 
 public class Memory {
 
 	private final MByte[] memory;
-	private LinkedHashMap<Integer, MemoryObject> memObjMap;
-	private boolean[] memoryIndex;
-	private int bytesUsed;
-	private int bytesFree;
+	private final int[] heatmap;
+	private int heatmapCounter;
 
-	// Der Konstruktor erwartet einen int-Wert für die Größe des MByte-Arrays
+	// Der Konstruktor erwartet einen int-Wert fÃ¼r die GrÃ¶ÃŸe des MByte-Arrays
 	// "speicher"
 	// Alle MBytes im MByte-Array "speicher" werden mit false (0) initialisiert
-	// Der Speicher ist leer bzw. alle Bytes sind zum überschreiben freigegeben.
+	// Der Speicher ist leer bzw. alle Bytes sind zum Ã¼berschreiben freigegeben.
 	public Memory(int size) {
 
 		memory = new MByte[size];
+		heatmap = new int[size];
 
 		for (int i = 0; i < memory.length; i++) {
 
@@ -25,109 +23,86 @@ public class Memory {
 
 		}
 
-		setMemoryIndex(new boolean[size]);
-		memObjMap = new LinkedHashMap<Integer, MemoryObject>();
-		bytesUsed = 0;
-
 	}
 
-	// Standard Getter- und Setter-Methoden zur Instanzvariable "speicher"
+	// Standard Getter- und Setter-Methoden zur Instanzvariable "memory"
 	public MByte[] getMemory() {
 		return memory;
 	}
 
-	// public void setMemory(MByte[] memory) {
-	// this.memory = memory;
-	// }
+	// Returnt die Anzahl der Bits in memory
+	public int getSize() {
 
-	// Standard Getter- und Setter-Methoden zur Instanzvariable "index"
-	public boolean[] getMemoryIndex() {
-		return memoryIndex;
+		return memory.length * 8;
+
 	}
 
-	public void setMemoryIndex(boolean[] memoryIndex) {
-		this.memoryIndex = memoryIndex;
+	public int[] getHeatmap() {
+		return heatmap;
 	}
 
-	// Standard Getter-methode zur Instanzvariable "bytesBelegt"
-	public int getBytesUsed() {
-		setBytesUsed();
-		return bytesUsed;
+	private void incHeatmap(int index) {
+
+		if(!(heatmap[index] + 1 < heatmap[index])) {
+			
+			heatmap[index]++;
+			
+		}
+		
+		decHeatmap(heatmapCounter);
+		heatmapCounter++;
+		
+		if(heatmapCounter >= heatmap.length) {
+			
+			heatmapCounter = 0;
+			
+		}
+
 	}
 
-	// Aktualisiert die Instanzvariable bytesBelegt: Es werden alle belegten
-	// Bytes im Speicher gezählt und der entsprechende Wert in "bytesBelegt"
-	// abgespeichert.
-	public void setBytesUsed() {
+	private void decHeatmap(int index) {
 
-		int counter = 0;
+		if (!(heatmap[index] - 1 > heatmap[index])) {
 
-		for (boolean b : memoryIndex) {
-
-			if (b) {
-
-				counter++;
-
-			}
+			heatmap[index]--;
 
 		}
 
-		bytesUsed = counter;
-
 	}
-
-	// Standard Getter-methode zur Instanzvariable "bytesFrei"
-	public int getBytesFree() {
-		setBytesFree();
-		return bytesFree;
-	}
-
-	// Aktualisiert die Instanzvariable bytesBelegt: Die Anzahl der Freien Bytes
-	// werden durch die Differenz der Gesamtspeichergröße und dem Belegten
-	// Speicher ermittelt
-	public void setBytesFree() {
-
-		this.bytesFree = memory.length - getBytesUsed();
-
+	
+	public void resetHeatmap() {
+		
+		for(int i = 0; i < heatmap.length; i++) {
+			
+			heatmap[i] = 0;
+			
+		}
+		
 	}
 
 	// Returnwerte:
-	// null: index out of bounce: Plazieren der Daten fehlgeschlagen
-	// false: Speicher bei index schon belegt
+	// false: index out of bounce: Plazieren der Daten fehlgeschlagen
 	// true: Plazieren der Daten erfolgreich
-	public Boolean placeObject(int index, MByte[] data) {
+	public boolean placeObject(int index, MByte[] data) {
 
 		if ((data.length + index) > memory.length || index < 0) {
 
-			return null;
-
-		}
-
-		for (int i = 0; i < data.length; i++) {
-
-			if (memoryIndex[index + i]) {
-
-				return false;
-
-			}
+			return false;
 
 		}
 
 		for (int i = 0; i < data.length; i++) {
 
 			memory[index + i] = data[i];
-			memoryIndex[index + i] = true;
-
-			memObjMap.put(index, new MemoryObject(index, data.length));
-
+			incHeatmap(index + i);
 		}
 
 		return true;
 
 	}
-	
+
 	public Boolean placeObject(int index, String text) {
-		
+
 		int[] asciiArray = new int[text.length()];
 
 		for (int i = 0; i < text.length(); i++) {
@@ -137,9 +112,9 @@ public class Memory {
 		}
 
 		return placeObject(index, asciiArray);
-		
+
 	}
-	
+
 	public Boolean placeObject(int index, int[] data) {
 
 		LinkedList<MByte> mbList = new LinkedList<MByte>();
@@ -161,92 +136,56 @@ public class Memory {
 		return placeObject(index, mbList.toArray(new MByte[0]));
 
 	}
-	
+
 	public Boolean placeObject(int index, int data) {
-		
-		int[] arr = {data};
-		
+
+		int[] arr = { data };
+
 		return placeObject(index, arr);
-		
+
 	}
-	
-	
-	// Returnwerte:
-	// false: Objectname nicht gefunden
-	// true: erfolgreich
 
-	public boolean deleteObject(int index) {
+	// Speichert einen Integer-Wert (4 Byte) in memory.
+	// Es werden keine vorangestellten Nullen weggeschnitten.
+	// Es werden immer genau 4 Byte beschrieben.
+	// Gibt 'false' bei index out of Bounce Error zurÃ¼ck.
+	public boolean placeInteger(int index, int data) {
 
-		if (!memObjMap.containsKey(index)) {
+		if ((4 + index) > memory.length || index < 0) {
 
 			return false;
 
 		}
 
-		for (int i = 0; i < memObjMap.get(index).getSize(); i++) {
+		String bin = Integer.toBinaryString(data);
 
-			memoryIndex[memObjMap.get(index).getIndex() + i] = false;
+		boolean[] bArray = new boolean[32];
+
+		for (int i = 0; i < bin.length(); i++) {
+
+			if (bin.charAt(bin.length() - 1 - i) == '1') {
+
+				bArray[bArray.length - 1 - i] = true;
+
+			} else {
+
+				bArray[bArray.length - 1 - i] = false;
+
+			}
 
 		}
 
-		memObjMap.remove(index);
+		for (int i = 0; i < 4; i++) {
+
+			bArray = memory[index + i].setByte(bArray);
+			incHeatmap(index + i);
+		}
+
 		return true;
 
 	}
-	
-	// Returnwerte:
-	// null: Objectname nicht gefunden
 
-	public MByte[] getObjData(int index) {
-
-		if (!memObjMap.containsKey(index)) {
-
-			return null;
-
-		}
-		
-		MByte[] data = new MByte[memObjMap.get(index).getSize()];
-		
-		for(int i = 0; i < data.length; i++) {
-			
-			data[i] = memory[memObjMap.get(index).getIndex() + i];
-			
-		}
-		
-		return data;
-
-	}
-	
-	// Returnwerte:
-	// null: Objectname nicht gefunden
-	// false: Datengröße ungleich Objectgröße
-	// true: erfolgreich
-	
-	public Boolean writeObjData(MByte[] data, int index) {
-		
-		if(!memObjMap.containsKey(index)) {
-			
-			return null;
-			
-		}
-		
-		if(data.length != memObjMap.get(index).getSize()) {
-			
-			return false;
-			
-		}
-		
-		for(int i = 0; i < data.length; i++) {
-			
-			memory[memObjMap.get(index).getIndex() + i] = data[i];
-			
-		}
-		
-		return true;
-		
-	}
-
-	// toString() gibt ein Abbild des Speichers als String zurück
+	// toString() gibt ein Abbild des Speichers als String zurÃ¼ck
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder();
