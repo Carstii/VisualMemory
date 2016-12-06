@@ -22,7 +22,7 @@ public class Server implements Runnable{
 		this.ts = ts;
 		this.methods = this.ts.getClass().getDeclaredMethods();
 		try {
-			so = new ServerSocket(23);
+			so = new ServerSocket(2000);
 			socket = so.accept();
 			
 			
@@ -162,7 +162,7 @@ public class Server implements Runnable{
 		        
 	        }
 			
-			pw.println("Der Server fährt jetzt herunter.");
+			pw.println("Der Server fï¿½hrt jetzt herunter.");
 			shutdown();
 			
 		} catch (IOException e) {
