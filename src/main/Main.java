@@ -21,7 +21,6 @@ public class Main {
 
 //		 int width = 2560;
 //		 int height = 1440;
-		//hallo
 		 
 		 Menu menu = new Menu();
 		 menu.showGUI();
@@ -34,6 +33,7 @@ public class Main {
 			}
 			 
 		 }
+		 
 //		 Memory mem = new Memory(width * height / 8);
 		 
 		 TelnetShell ts = new TelnetShell(menu);
