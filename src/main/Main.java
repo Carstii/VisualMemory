@@ -33,6 +33,7 @@ public class Main {
 			}
 			 
 		 }
+		
 		 
 //		 Memory mem = new Memory(width * height / 8);
 		 
