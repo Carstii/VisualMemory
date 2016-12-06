@@ -36,7 +36,7 @@ public class Main {
 
 
 		 
-		 //halloooo
+		 //halloooo1
 		 
 //		 Memory mem = new Memory(width * height / 8);
 		 
