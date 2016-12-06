@@ -2,16 +2,15 @@ package memory;
 
 import java.util.LinkedList;
 
-public class Memory {
+public class Memory implements Runnable{
 
 	private final MByte[] memory;
 	private final int[] heatmap;
-	private int heatmapCounter;
 
-	// Der Konstruktor erwartet einen int-Wert fÃ¼r die GrÃ¶ÃŸe des MByte-Arrays
+	// Der Konstruktor erwartet einen int-Wert für die Größe des MByte-Arrays
 	// "speicher"
 	// Alle MBytes im MByte-Array "speicher" werden mit false (0) initialisiert
-	// Der Speicher ist leer bzw. alle Bytes sind zum Ã¼berschreiben freigegeben.
+	// Der Speicher ist leer bzw. alle Bytes sind zum überschreiben freigegeben.
 	public Memory(int size) {
 
 		memory = new MByte[size];
@@ -43,29 +42,20 @@ public class Memory {
 
 	private void incHeatmap(int index) {
 
-		if(!(heatmap[index] + 1 < heatmap[index])) {
+		if(!(heatmap[index] >= 100)) {
 			
 			heatmap[index]++;
-			
-		}
-		
-		decHeatmap(heatmapCounter);
-		heatmapCounter++;
-		
-		if(heatmapCounter >= heatmap.length) {
-			
-			heatmapCounter = 0;
 			
 		}
 
 	}
 
-	private void decHeatmap(int index) {
+	private void decHeatmap() {
 
-		if (!(heatmap[index] - 1 > heatmap[index])) {
-
-			heatmap[index]--;
-
+		for(int i = 0; i < heatmap.length; i++) {
+			
+			heatmap[i] *= 0.8; 
+			
 		}
 
 	}
@@ -148,7 +138,7 @@ public class Memory {
 	// Speichert einen Integer-Wert (4 Byte) in memory.
 	// Es werden keine vorangestellten Nullen weggeschnitten.
 	// Es werden immer genau 4 Byte beschrieben.
-	// Gibt 'false' bei index out of Bounce Error zurÃ¼ck.
+	// Gibt 'false' bei index out of Bounce Error zurück.
 	public boolean placeInteger(int index, int data) {
 
 		if ((4 + index) > memory.length || index < 0) {
@@ -185,7 +175,7 @@ public class Memory {
 
 	}
 
-	// toString() gibt ein Abbild des Speichers als String zurÃ¼ck
+	// toString() gibt ein Abbild des Speichers als String zurück
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder();
@@ -205,6 +195,23 @@ public class Memory {
 
 		return sb.toString();
 
+	}
+
+	@Override
+	public void run() {
+		
+		while(true) {
+			
+			decHeatmap();
+			
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
 	}
 
 }

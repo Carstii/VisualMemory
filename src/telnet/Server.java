@@ -2,12 +2,8 @@ package telnet;
 
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -15,21 +11,28 @@ import java.lang.reflect.Parameter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import memory.Memory;
-
-public class Server {
+public class Server implements Runnable{
 
 	private Method methods[];
-	private Memory b;
-	
-	public Server(){
+	private TelnetShell ts;
+	Socket socket;
+	ServerSocket so;
+	public Server(TelnetShell ts){
 		
-		this.b = new Memory(12);
-		this.methods = b.getClass().getDeclaredMethods();
+		this.ts = ts;
+		this.methods = this.ts.getClass().getDeclaredMethods();
+		try {
+			so = new ServerSocket(23);
+			socket = so.accept();
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public String executeMethod(int methodNumber, String param[]) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
-			Method method = this.getMethod(methodNumber);
+	public String executeMethod(String methodName, String param[]) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+			Method method = this.getMethod(methodName);
 			
 			if(method != null){
 				int countParameter = method.getParameterCount();
@@ -49,7 +52,7 @@ public class Server {
 						}
 					}
 					
-					method.invoke(this.b, parameter);
+					method.invoke(this.ts, parameter);
 					return "Methode " + method.getName() + " wurde erfolgreich ausgefuehrt";
 				}else{
 					return "Die Anzahl der uebergebenen Parameter ist falsch, es werden: " + countParameter + " Parameter erwartet.";
@@ -69,10 +72,6 @@ public class Server {
 		return null;
 	}
 	
-	public Method getMethod(int number){
-		return methods[number];
-	}
-	
 	public Method[] getMethods() {
 		return methods;
 	}
@@ -80,21 +79,15 @@ public class Server {
 	public void setMethods(Method[] methods) {
 		this.methods = methods;
 	}
-
-	public static void main(String[] args){
+	
+	@Override
+	public void run (){
 		
 		try{
 			
-			Server s = new Server();
-			
-            
 			
 			boolean end = false;
 	        
-			ServerSocket so = new ServerSocket(23);
-			
-			Socket socket = so.accept();
-			
 			PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			
@@ -103,6 +96,21 @@ public class Server {
 			
 			while(!end){
 		        String eingabe = br.readLine();
+		        
+		        if(eingabe == null) {
+		        	
+		        	System.out.println("Terminal geschlossen, warte auf neue Verbindung...");
+		        	
+		        	socket = so.accept();
+		        	
+		        	pw = new PrintWriter(socket.getOutputStream(), true);
+		        	br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		        	
+		        	pw.println("Sie sind jetzt mit dem Server verbunden!");
+		        	
+		        	continue;
+		        	       	
+		        }
 		        
 		        String input[] = eingabe.split(" ");
 		        
@@ -117,10 +125,10 @@ public class Server {
 		        		
 		        		break;
 		        	case "methods":
-		        		for(int i = 0; i < s.getMethods().length; i++){
-		        			pw.print((i+1) + " " + s.getMethods()[i].getName() + "(");
+		        		for(int i = 0; i < this.getMethods().length; i++){
+		        			pw.print(this.getMethods()[i].getName() + "(");
 		            		
-		            		Parameter parameter[] = s.getMethods()[i].getParameters();
+		            		Parameter parameter[] = this.getMethods()[i].getParameters();
 		            		
 		            		for(int a = 0; a < parameter.length; a++){
 		            			pw.print(parameter[a].toString());
@@ -133,36 +141,19 @@ public class Server {
 		        		break;
 		        	case "invoke" :
 		        		if(input.length < 2){
-		        			pw.println("Syntax: invoke [Methodennummer] [Parameter1] [Parameter2] usw.");
+		        			pw.println("Syntax: invoke [Methodenname] [Parameter1] [Parameter2] usw.");
 		        		}else{
 		        			String parameter[] = new String[input.length-2];
 		        			
 		        			for(int i = 0; i < parameter.length; i++){
 		        				parameter[i] = input[i+2];
 		        			}
-		        			try{
-		        				pw.println(s.executeMethod(Integer.parseInt(input[1]) - 1 , parameter));
-		        			}catch(NumberFormatException ex){
-		        				pw.println("Syntax: invoke [Methodennummer] [Parameter1] [Parameter2] usw.");
-		        			}
+		        			
+		        			pw.println(this.executeMethod(input[1], parameter));
 		        		}
 		        		break;
 		        	case "exit":
 		        		end = true;
-		        		break;
-		        	case "file":
-		        		File file = new File("Empfangen.txt");
-		                OutputStream outputStream = new FileOutputStream(file);
-		                InputStream inputStream = socket.getInputStream();
-
-		                byte[] buffer = new byte[16384];
-		                int len = 0;
-		                while ((len = inputStream.read(buffer)) > 0) {
-		                    outputStream.write(buffer, 0, len);
-		                }
-		                outputStream.close();
-		                inputStream.close();
-		                System.out.println("Es wurde eine Datei empfangen");
 		        		break;
 		        	default:
 		        		pw.println("Dieser Befehl existiert nicht");
@@ -171,21 +162,29 @@ public class Server {
 		        
 	        }
 			
-			so.close();
-			
+			pw.println("Der Server fährt jetzt herunter.");
+			shutdown();
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 	}
+	
+	public void shutdown() {
+		
+		try {
+			so.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+	
 }

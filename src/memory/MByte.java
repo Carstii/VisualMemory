@@ -399,8 +399,6 @@ public class MByte {
 
 		}
 		
-		sb.append(" ");
-
 		return sb.toString();
 
 	}

@@ -2,31 +2,55 @@ package main;
 
 import java.util.Random;
 
-import gui.MemHeatMap;
 import gui.MemWindow;
+import gui.Menu;
 import memory.Memory;
+import telnet.Server;
+import telnet.TelnetShell;
 
 public class Main {
 
 	public static void main(String[] args) {
-
-		// int width = 800;
-		// int height = 600;
+		
+		
+//		 int width = 800;
+//		 int height = 600;
 
 //		int width = 1920;
 //		int height = 1080;
 
-		 int width = 2560;
-		 int height = 1440;
-		Random random = new Random();
-
-		Memory mem = new Memory(width * height / 8);
+//		 int width = 2560;
+//		 int height = 1440;
+		 
+		 Menu menu = new Menu();
+		 menu.showGUI();
+		 while(menu.getMemory() == null) {
+			 
+			 try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			 
+		 }
+//		 Memory mem = new Memory(width * height / 8);
+		 
+		 TelnetShell ts = new TelnetShell(menu);
+		 Server server = new Server(ts);
+		 Thread serverThread = new Thread(server);
+		 
+		 serverThread.start();
+		 
+		 
+		 Random random = new Random();
+//
+		
 
 		// @SuppressWarnings("resource")
 		// Scanner scanner = new Scanner(System.in);
 
-		 MemWindow memWindow = new MemWindow(width, height, 1, mem.getMemory());
-		 memWindow.start();
+//		 MemWindow memWindow = new MemWindow(width, height, 1, mem.getMemory());
+//		 memWindow.start();
 
 //		MemHeatMap heatWindow = new MemHeatMap(width, height, 1, mem.getHeatmap());
 //		heatWindow.start();
@@ -34,8 +58,8 @@ public class Main {
 		// int index = 0;
 		while (true) {
 			try {
-				// int input = scanner.nextInt();
-				mem.placeInteger(random.nextInt(mem.getSize() / 8), random.nextInt());
+//				int input = scanner.nextInt();
+				menu.getMemory().placeInteger(random.nextInt(menu.getMemory().getSize() / 8), random.nextInt());
 				// index += 4;
 				//
 				// if(index >= mem.getSize()/8) {
@@ -44,7 +68,7 @@ public class Main {
 				//
 				// }
 
-				// Thread.sleep(0, 1);
+//				 Thread.sleep(1000);
 
 			} catch (Exception e) {
 

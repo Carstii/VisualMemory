@@ -14,7 +14,7 @@ public class MemHeatMap {
 	private final int THREADANZAHL;
 
 	private final int[] HEATMAP;
-
+	
 	public MemHeatMap(int wIDTH, int hEIGHT, int tHREADANZAHL, int[] hEATMAP) {
 
 		super();
@@ -43,6 +43,7 @@ public class MemHeatMap {
 			window.setVisible(true);
 			Thread guiThread = new Thread(parts[i]);
 			guiThread.start();
+			
 
 		}
 

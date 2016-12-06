@@ -15,6 +15,8 @@ public class MemWindow {
 	private final int THREADANZAHL;
 
 	private final MByte[] MEMORY;
+	
+	private Thread guiThread;
 
 	public MemWindow(int wIDTH, int hEIGHT, int tHREADANZAHL, MByte[] mEMORY) {
 
@@ -42,11 +44,17 @@ public class MemWindow {
 			window.add(parts[i]);
 			
 			window.setVisible(true);
-			Thread guiThread = new Thread(parts[i]);
+			guiThread = new Thread(parts[i]);
 			guiThread.start();
 
 		}
 
+	}
+	
+	public void stop() {
+		
+		
+		
 	}
 
 }

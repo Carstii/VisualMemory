@@ -44,17 +44,33 @@ public class MemHeatMapPart extends JComponent implements Runnable {
 
 				int index = (wIDTHBYTE * HEIGHT) * PARTNUM + x + wIDTHBYTE * y;
 
-				if (HEATMAP[index] > -50 && HEATMAP[index] < 50) {
+				if (HEATMAP[index] <1) {
 
-					g.setColor(Color.green);
+					g.setColor(new Color(0, 0, 0));
 
-				} else if (HEATMAP[index] <= -50) {
+				} else if (HEATMAP[index] <= 5) {
 
-					g.setColor(Color.blue);
+					g.setColor(new Color(128, 0, 0));
+
+				} else if (HEATMAP[index] <= 10) {
+
+					g.setColor(new Color(255, 0, 0));
+
+				} else if (HEATMAP[index] <= 25) {
+
+					g.setColor(new Color(255, 128, 0));
+
+				} else if (HEATMAP[index] <= 50) {
+
+					g.setColor(new Color(255, 255, 0));
+
+				}else if (HEATMAP[index] <= 75) {
+
+					g.setColor(new Color(255, 255, 128));
 
 				} else {
 
-					g.setColor(Color.red);
+					g.setColor(new Color(255, 255, 255));
 
 				}
 

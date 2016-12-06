@@ -11,29 +11,28 @@ public class TelnetAbfrage {
 	private String resolutionText;
 	private int row;
 	private int column;
-	Menu men;
 	
 	BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 	
 	TelnetAbfrage() {
 		System.out.println("Bitte waehlen Sie eine Aufloesung!");
-		System.out.println("1: 1920 x 1080");
+		System.out.println("1: 1980 x 1080");
 		System.out.println("2: 1024 x 768");
 		System.out.println("3: 800 x 600");
 		
 		try {
 			
 			input = Integer.parseInt(buffer.readLine());
-			System.out.println(input);
-			setResolutionSize(Resolution(input));
+			Resolution(input);
 		} catch (NumberFormatException e) {
 			System.out.println("Falsche Eingabe");
 		} catch (IOException e) {
 			System.out.println("Falsche Eingabe");
 		}
+	}
 	
-		men = new Menu(this);
-		men.showGUI();
+	TelnetAbfrage(int zahl) {
+		
 	}
 	
 	public int getResolutionSize() {
@@ -59,7 +58,7 @@ public class TelnetAbfrage {
 		int column = 0;
 		
 		switch (input) {
-			case 1: size = 1980 * 1080; text = "1920 x 1080"; row = 1980; column = 1080; break;
+			case 1: size = 1980 * 1080; text = "1980 x 1080"; row = 1980; column = 1080; break;
 			case 2: size = 1024 * 768; text = "1024 x 768"; row = 1024; column = 768; break;
 			case 3: size = 800 * 600; text = "800 x 600"; row = 800; column = 600; break;
 		}
