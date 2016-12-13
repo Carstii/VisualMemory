@@ -4,6 +4,8 @@ import gui.Menu;
 import memory.MByte;
 
 public class TelnetShell {
+	
+	public static boolean run = true;
 
 	private Menu menu;
 
@@ -21,7 +23,7 @@ public class TelnetShell {
 
 		}
 
-		return Integer.toString(Integer.parseInt(menu.getMemory().getMemory()[index].toString(), 2));
+		return Integer.toHexString(Integer.parseInt(menu.getMemory().getMemory()[index].toString(), 2));
 
 	}
 
@@ -40,7 +42,7 @@ public class TelnetShell {
 	
 	public String getSize() {
 		
-		return Integer.toString(menu.getMemory().getSize()) + " Bit";
+		return Integer.toString(menu.getMemory().getSize());
 		
 	}
 	

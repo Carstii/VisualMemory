@@ -99,7 +99,7 @@ public class Menu {
 	public void showGUI() {
 		frame.setVisible(true);
 	}
-
+		
 	private void buildAuflosungContent() {
 
 		JRadioButton radioA = new JRadioButton("800x600");

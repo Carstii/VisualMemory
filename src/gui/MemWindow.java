@@ -50,11 +50,5 @@ public class MemWindow {
 		}
 
 	}
-	
-	public void stop() {
-		
-		
-		
-	}
 
 }

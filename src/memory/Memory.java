@@ -32,7 +32,7 @@ public class Memory implements Runnable{
 	// Returnt die Anzahl der Bits in memory
 	public int getSize() {
 
-		return memory.length * 8;
+		return memory.length;
 
 	}
 

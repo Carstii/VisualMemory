@@ -6,9 +6,14 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 import memory.MByte;
+import telnet.TelnetShell;
 
 public class MemHeatMapPart extends JComponent implements Runnable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final int WIDTH;
 	private final int HEIGHT;
 
@@ -85,7 +90,7 @@ public class MemHeatMapPart extends JComponent implements Runnable {
 	@Override
 	public void run() {
 
-		while (true) {
+		while (TelnetShell.run) {
 
 			try {
 				Thread.sleep(1000);

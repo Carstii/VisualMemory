@@ -5,8 +5,6 @@ import java.awt.GridLayout;
 
 import javax.swing.JWindow;
 
-import memory.MByte;
-
 public class MemHeatMap {
 	private final int WIDTH;
 	private final int HEIGHT;
