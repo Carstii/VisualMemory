@@ -1,7 +1,6 @@
 package telnet;
 
 import gui.Menu;
-import memory.MByte;
 
 public class TelnetShell {
 	
@@ -17,7 +16,7 @@ public class TelnetShell {
 
 	public String readByte(int index) {
 
-		if ((menu.getMemory().getSize() / MByte.BYTESIZE) <= index || index < 0) {
+		if ((menu.getMemory().getSize()) <= index || index < 0) {
 
 			return null;
 
