@@ -6,13 +6,14 @@ import java.awt.GridLayout;
 import javax.swing.JWindow;
 
 public class MemHeatMap {
+
 	private final int WIDTH;
 	private final int HEIGHT;
 
 	private final int THREADANZAHL;
 
 	private final int[] HEATMAP;
-	
+
 	public MemHeatMap(int wIDTH, int hEIGHT, int tHREADANZAHL, int[] hEATMAP) {
 
 		super();
@@ -41,7 +42,6 @@ public class MemHeatMap {
 			window.setVisible(true);
 			Thread guiThread = new Thread(parts[i]);
 			guiThread.start();
-			
 
 		}
 

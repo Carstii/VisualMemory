@@ -84,23 +84,21 @@ public class MByte {
 		}
 
 	}
-	
+
 	public Integer setByte(int x) {
-		
+
 		boolean[] ba = setByte(intToBoolArray(x));
-		
-		if(ba == null) {
-			
+
+		if (ba == null) {
+
 			return null;
-			
+
 		} else {
-			
+
 			return boolArrayToInt(ba);
-			
+
 		}
-		
-		
-		
+
 	}
 
 	private boolean charToBool(char c) {
@@ -116,49 +114,49 @@ public class MByte {
 		}
 
 	}
-	
+
 	private char boolToChar(boolean b) {
-		
-		if(b) {
-			
+
+		if (b) {
+
 			return '1';
-			
+
 		} else {
-			
+
 			return '0';
-			
+
 		}
-		
+
 	}
-	
+
 	private boolean[] intToBoolArray(int x) {
-		
+
 		String s = Integer.toBinaryString(x);
-		
+
 		boolean[] b = new boolean[s.length()];
-		
-		for(int i = 0; i < s.length(); i++) {
-			
+
+		for (int i = 0; i < s.length(); i++) {
+
 			b[i] = charToBool(s.charAt(i));
-			
+
 		}
-		
+
 		return b;
-		
+
 	}
-	
+
 	private int boolArrayToInt(boolean[] ba) {
-		
+
 		StringBuilder s = new StringBuilder();
-		
-		for(boolean b : ba) {
-			
+
+		for (boolean b : ba) {
+
 			s.append(boolToChar(b));
-			
+
 		}
-		
+
 		return Integer.parseInt(s.toString(), 2);
-		
+
 	}
 
 	// toString() gibt ein Abbild der Instanzvariable "mByte" als String zurück.
@@ -181,7 +179,7 @@ public class MByte {
 			}
 
 		}
-		
+
 		return sb.toString();
 
 	}

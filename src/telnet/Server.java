@@ -10,8 +10,8 @@ import java.net.Socket;
 public class Server implements Runnable {
 
 	private TelnetShell ts;
-	Socket socket;
-	ServerSocket so;
+	private Socket socket;
+	private ServerSocket so;
 
 	public Server(TelnetShell ts) {
 
@@ -64,14 +64,15 @@ public class Server implements Runnable {
 				System.out.println();
 
 				switch (input[0]) {
-				
+
 				// schreibt ein Byte auf das Memory. Syntax: push [index] [byte]
-				// [index] ist ein dezimaler int-Wert und bestimmt die Stelle im Memory z.B: 20000
+				// [index] ist ein dezimaler int-Wert und bestimmt die Stelle im
+				// Memory z.B: 20000
 				// [byte] ist ein Hex-Wert, z.B: 6f (ohne vorangestelltes "0x")
 				case "push":
 
 					try {
-						
+
 						ts.writeByte(Integer.parseInt(input[1]), Integer.parseInt(input[2], 16));
 
 					} catch (ArrayIndexOutOfBoundsException e) {
@@ -83,26 +84,26 @@ public class Server implements Runnable {
 					break;
 
 				// liest ein Byte aus dem Memory. Syntax: pull [index]
-				// [index] ist ein dezimaler int-Wert und bestimmt die Stelle im Memory z.B: 20000
-				
+				// [index] ist ein dezimaler int-Wert und bestimmt die Stelle im
+				// Memory z.B: 20000
+
 				case "pull":
-					
+
 					pw.println(ts.readByte(Integer.parseInt(input[1])));
 
 					break;
 
-					
 				// getSize gibt die Größe des Memorys in Byte zurück
 				case "getSize":
-					
+
 					pw.println(ts.getSize());
 
 					break;
 
 				// switch wechselt die Ansicht zwischen Heatmap und Pixelansicht
 				case "switch":
-					
-					ts.switchServerView();
+
+					ts.switchServerView(Integer.parseInt(input[1]));
 
 					break;
 

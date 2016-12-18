@@ -8,7 +8,7 @@ import javax.swing.JComponent;
 import memory.MByte;
 import telnet.TelnetShell;
 
-public class MemHeatMapPart extends JComponent implements Runnable {
+public class MemGreyLevelPart extends JComponent implements Runnable {
 
 	/**
 	 * 
@@ -19,9 +19,9 @@ public class MemHeatMapPart extends JComponent implements Runnable {
 
 	private final int PARTNUM;
 
-	private final int[] HEATMAP;
+	private final MByte[] MEMORY;
 
-	public MemHeatMapPart(int wIDTH, int hEIGHT, int[] hEATMAP, int pARTNUM) {
+	public MemGreyLevelPart(int wIDTH, int hEIGHT, MByte[] mEMORY, int pARTNUM) {
 
 		super();
 
@@ -30,7 +30,7 @@ public class MemHeatMapPart extends JComponent implements Runnable {
 
 		this.PARTNUM = pARTNUM;
 
-		this.HEATMAP = hEATMAP;
+		this.MEMORY = mEMORY;
 
 		setDoubleBuffered(true);
 
@@ -43,42 +43,17 @@ public class MemHeatMapPart extends JComponent implements Runnable {
 
 		final int wIDTHBYTE = WIDTH / MByte.BYTESIZE;
 
+		int index;
+		int value;
+
 		for (int y = 0; y < HEIGHT; y++) {
 
 			for (int x = 0; x < wIDTHBYTE; x++) {
 
-				int index = (wIDTHBYTE * HEIGHT) * PARTNUM + x + wIDTHBYTE * y;
+				index = (wIDTHBYTE * HEIGHT) * PARTNUM + x + wIDTHBYTE * y;
 
-				if (HEATMAP[index] < 1) {
-
-					g.setColor(new Color(0, 0, 0));
-
-				} else if (HEATMAP[index] <= 5) {
-
-					g.setColor(new Color(128, 0, 0));
-
-				} else if (HEATMAP[index] <= 10) {
-
-					g.setColor(new Color(255, 0, 0));
-
-				} else if (HEATMAP[index] <= 25) {
-
-					g.setColor(new Color(255, 128, 0));
-
-				} else if (HEATMAP[index] <= 50) {
-
-					g.setColor(new Color(255, 255, 0));
-
-				} else if (HEATMAP[index] <= 75) {
-
-					g.setColor(new Color(255, 255, 128));
-
-				} else {
-
-					g.setColor(new Color(255, 255, 255));
-
-				}
-
+				value = Integer.parseInt(MEMORY[index].toString(), 2);
+				g.setColor(new Color(value, value, value));
 				g.drawLine(x * MByte.BYTESIZE, y, x * MByte.BYTESIZE + 7, y);
 
 			}

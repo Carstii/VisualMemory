@@ -16,7 +16,7 @@ public class TelnetShell {
 
 	public String readByte(int index) {
 
-		if ((menu.getMemory().getSize()) <= index || index < 0) {
+		if (menu.getMemory().getSize() <= index || index < 0) {
 
 			return null;
 
@@ -45,9 +45,9 @@ public class TelnetShell {
 		
 	}
 	
-	public void switchServerView() {
+	public void switchServerView(int view) {
 		
-		menu.switchView();
+		menu.switchView(view);
 		
 	}
 

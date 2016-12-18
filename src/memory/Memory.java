@@ -2,7 +2,7 @@ package memory;
 
 import java.util.LinkedList;
 
-public class Memory implements Runnable{
+public class Memory implements Runnable {
 
 	private final MByte[] memory;
 	private final int[] heatmap;
@@ -42,32 +42,32 @@ public class Memory implements Runnable{
 
 	private void incHeatmap(int index) {
 
-		if(!(heatmap[index] >= 100)) {
-			
+		if (!(heatmap[index] >= 100)) {
+
 			heatmap[index]++;
-			
+
 		}
 
 	}
 
 	private void decHeatmap() {
 
-		for(int i = 0; i < heatmap.length; i++) {
-			
-			heatmap[i] *= 0.8; 
-			
+		for (int i = 0; i < heatmap.length; i++) {
+
+			heatmap[i] *= 0.8;
+
 		}
 
 	}
-	
+
 	public void resetHeatmap() {
-		
-		for(int i = 0; i < heatmap.length; i++) {
-			
+
+		for (int i = 0; i < heatmap.length; i++) {
+
 			heatmap[i] = 0;
-			
+
 		}
-		
+
 	}
 
 	// Returnwerte:
@@ -199,19 +199,19 @@ public class Memory implements Runnable{
 
 	@Override
 	public void run() {
-		
-		while(true) {
-			
+
+		while (true) {
+
 			decHeatmap();
-			
+
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			
+
 		}
-		
+
 	}
 
 }

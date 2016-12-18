@@ -7,7 +7,7 @@ import javax.swing.JWindow;
 
 import memory.MByte;
 
-public class MemWindow {
+public class MemGreyLevel {
 
 	private final int WIDTH;
 	private final int HEIGHT;
@@ -18,7 +18,7 @@ public class MemWindow {
 
 	private Thread guiThread;
 
-	public MemWindow(int wIDTH, int hEIGHT, int tHREADANZAHL, MByte[] mEMORY) {
+	public MemGreyLevel(int wIDTH, int hEIGHT, int tHREADANZAHL, MByte[] mEMORY) {
 
 		super();
 		WIDTH = wIDTH;
@@ -36,11 +36,11 @@ public class MemWindow {
 		window.setLayout(new GridLayout(0, 1));
 		window.setBackground(Color.white);
 
-		MemWindowPart[] parts = new MemWindowPart[THREADANZAHL];
+		MemGreyLevelPart[] parts = new MemGreyLevelPart[THREADANZAHL];
 
 		for (int i = 0; i < THREADANZAHL; i++) {
 
-			parts[i] = new MemWindowPart(WIDTH, HEIGHT / THREADANZAHL, MEMORY, i);
+			parts[i] = new MemGreyLevelPart(WIDTH, HEIGHT / THREADANZAHL, MEMORY, i);
 			window.add(parts[i]);
 
 			window.setVisible(true);
