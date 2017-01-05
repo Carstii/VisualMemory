@@ -4,8 +4,6 @@ import gui.Menu;
 
 public class TelnetShell {
 	
-	public static boolean run = true;
-
 	private Menu menu;
 
 	public TelnetShell(Menu mem) {
@@ -26,7 +24,6 @@ public class TelnetShell {
 
 	}
 
-	// erwartet einen Binary-String
 	public boolean writeByte(int index, int data) {
 		
 		if(data < 0 || data > 255) {

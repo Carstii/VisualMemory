@@ -16,7 +16,6 @@ public class MemHeatMap {
 
 	public MemHeatMap(int wIDTH, int hEIGHT, int tHREADANZAHL, int[] hEATMAP) {
 
-		super();
 		WIDTH = wIDTH;
 		HEIGHT = hEIGHT;
 		THREADANZAHL = tHREADANZAHL;

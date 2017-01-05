@@ -13,11 +13,11 @@ public class Server implements Runnable {
 	private Socket socket;
 	private ServerSocket so;
 
-	public Server(TelnetShell ts) {
+	public Server(TelnetShell ts, int port) {
 
 		this.ts = ts;
 		try {
-			so = new ServerSocket(23);
+			so = new ServerSocket(port);
 			socket = so.accept();
 
 		} catch (IOException e) {
@@ -30,26 +30,22 @@ public class Server implements Runnable {
 
 		try {
 
-			boolean end = false;
-
 			PrintWriter pw = new PrintWriter(socket.getOutputStream(), true);
 			BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-			pw.println("Sie sind jetzt mit dem Server verbunden!");
-
-			while (!end) {
+			while (true) {
 				String eingabe = br.readLine();
 
 				if (eingabe == null) {
 
 					System.out.println("Terminal geschlossen, warte auf neue Verbindung...");
+					
+					Thread.sleep(500);
 
 					socket = so.accept();
 
 					pw = new PrintWriter(socket.getOutputStream(), true);
 					br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-					pw.println("Sie sind jetzt mit dem Server verbunden!");
 
 					continue;
 
@@ -93,14 +89,16 @@ public class Server implements Runnable {
 
 					break;
 
-				// getSize gibt die Größe des Memorys in Byte zurück
+				// getSize gibt die GrÃ¶ÃŸe des Memorys in Byte zurÃ¼ck
 				case "getSize":
 
 					pw.println(ts.getSize());
 
 					break;
 
-				// switch wechselt die Ansicht zwischen Heatmap und Pixelansicht
+				// switch 1 wechselt zur Pixelansicht
+				// switch 2 wechselt zur Heatmap
+				// switch 3 wechselt zur Graustufenansicht
 				case "switch":
 
 					ts.switchServerView(Integer.parseInt(input[1]));

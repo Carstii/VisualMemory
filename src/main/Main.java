@@ -10,8 +10,8 @@ public class Main {
 
 		Menu menu = new Menu();
 		TelnetShell ts = new TelnetShell(menu);
-		Server serverOld = new Server(ts);
-		Thread serverThread = new Thread(serverOld);
+		Server server = new Server(ts, 2300);
+		Thread serverThread = new Thread(server);
 		System.out.println("Start");
 		serverThread.start();
 

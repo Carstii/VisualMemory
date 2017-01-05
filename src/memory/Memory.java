@@ -7,10 +7,10 @@ public class Memory implements Runnable {
 	private final MByte[] memory;
 	private final int[] heatmap;
 
-	// Der Konstruktor erwartet einen int-Wert für die Größe des MByte-Arrays
+	// Der Konstruktor erwartet einen int-Wert fï¿½r die Grï¿½ï¿½e des MByte-Arrays
 	// "speicher"
 	// Alle MBytes im MByte-Array "speicher" werden mit false (0) initialisiert
-	// Der Speicher ist leer bzw. alle Bytes sind zum überschreiben freigegeben.
+	// Der Speicher ist leer bzw. alle Bytes sind zum ï¿½berschreiben freigegeben.
 	public Memory(int size) {
 
 		memory = new MByte[size];
@@ -29,7 +29,7 @@ public class Memory implements Runnable {
 		return memory;
 	}
 
-	// Returnt die Anzahl der Bits in memory
+	// Returnt die Anzahl der Bytes in memory
 	public int getSize() {
 
 		return memory.length;
@@ -54,7 +54,7 @@ public class Memory implements Runnable {
 
 		for (int i = 0; i < heatmap.length; i++) {
 
-			heatmap[i] *= 0.8;
+			heatmap[i] *= 0.95;
 
 		}
 
@@ -138,7 +138,7 @@ public class Memory implements Runnable {
 	// Speichert einen Integer-Wert (4 Byte) in memory.
 	// Es werden keine vorangestellten Nullen weggeschnitten.
 	// Es werden immer genau 4 Byte beschrieben.
-	// Gibt 'false' bei index out of Bounce Error zurück.
+	// Gibt 'false' bei index out of Bounce Error zurï¿½ck.
 	public boolean placeInteger(int index, int data) {
 
 		if ((4 + index) > memory.length || index < 0) {
@@ -175,7 +175,7 @@ public class Memory implements Runnable {
 
 	}
 
-	// toString() gibt ein Abbild des Speichers als String zurück
+	// toString() gibt ein Abbild des Speichers als String zurï¿½ck
 	public String toString() {
 
 		StringBuilder sb = new StringBuilder();
@@ -205,7 +205,7 @@ public class Memory implements Runnable {
 			decHeatmap();
 
 			try {
-				Thread.sleep(100);
+				Thread.sleep(4000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}

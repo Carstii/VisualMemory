@@ -24,7 +24,7 @@ public class Menu {
 		mem = new Memory(width * height);
 
 		System.out.println(mem.getSize() + " Bits");
-		System.out.println(width + " x " + height);
+		System.out.println(width*MByte.BYTESIZE + " x " + height);
 
 		Thread memoryThread = new Thread(mem);
 		memoryThread.start();

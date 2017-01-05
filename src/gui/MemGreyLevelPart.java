@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 
 import memory.MByte;
-import telnet.TelnetShell;
 
 public class MemGreyLevelPart extends JComponent implements Runnable {
 
@@ -65,7 +64,7 @@ public class MemGreyLevelPart extends JComponent implements Runnable {
 	@Override
 	public void run() {
 
-		while (TelnetShell.run) {
+		while (true) {
 
 			try {
 				Thread.sleep(1000);

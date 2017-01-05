@@ -20,7 +20,6 @@ public class MemWindow {
 
 	public MemWindow(int wIDTH, int hEIGHT, int tHREADANZAHL, MByte[] mEMORY) {
 
-		super();
 		WIDTH = wIDTH;
 		HEIGHT = hEIGHT;
 		THREADANZAHL = tHREADANZAHL;
